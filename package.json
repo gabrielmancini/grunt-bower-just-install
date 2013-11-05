@@ -2,7 +2,7 @@
   "name": "grunt-bower-just-install",
   "version": "0.0.1",
   "description": "Just Install Bower Components",
-  "main": "index.js",
+  "main": "Gruntfile.js",
   "scripts": {
     "test": "npm test"
   },
@@ -12,5 +12,6 @@
     "bower"
   ],
   "author": "Gabriel Mancini <gabriel.mancini@gmail.com> (https://github.com/gabrielmancini)",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {}
 }
