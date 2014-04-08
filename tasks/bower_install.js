@@ -1,21 +1,31 @@
-var spawn = require('child_process').spawn;
-
 module.exports = function (grunt) {
   grunt.registerTask('bower_install', 'Install bower components', function () {
+    var path = require('path');
     var done = this.async();
-    var ls = spawn('bower', ['install']);
+    var bower = require('bower');
+    var colors = {
+      cached: 'grey',
+      install: 'green',
+      validate: 'yellow'
+    };
 
-    ls.stdout.on('data', function (data) {
-      grunt.log.write(data);
-    });
+    bower.commands.install()
+      .on('log', function (result) {
+        var id = grunt.log.wordlist([result.id], { separator: ' ', color: colors[result.id] });
 
-    ls.stderr.on('data', function (data) {
-      grunt.log.write(data);
-    });
-
-    ls.on('close', function (code) {
-      grunt.log.writeln('child process exited with code ' + code);
-      done();
-    });
+        if (result.id === 'install') {
+          grunt.log.writeln('bower', id, result.message);
+        } else {
+          grunt.log.verbose.writeln('bower', id, result.message);
+        }
+      })
+      .on('error', function (err) {
+        grunt.log.error(err);
+        done(false);
+      })
+      .on('end', function (results) {
+        grunt.log.ok('bower components installed');
+        done();
+      });
   });
 };
